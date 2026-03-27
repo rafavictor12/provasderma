@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Questões Vesicobolhosas</title>
+  <style>
+    :root {
+      --bg: #f6f7fb;
+      --card: #ffffff;
+      --line: #e6e9f2;
+      --ink: #1e2430;
+      --muted: #667085;
+      --accent: #7c5cff;
+      --accent-soft: #efeaff;
+      --ok-bg: #ecfdf3;
+      --ok-bd: #a6f4c5;
+      --ok-tx: #05603a;
+      --bad-bg: #fef3f2;
+      --bad-bd: #fecdca;
+      --bad-tx: #b42318;
+      --neutral-bg: #fff7ed;
+      --neutral-bd: #fed7aa;
+      --neutral-tx: #9a3412;
+      --shadow: 0 14px 34px rgba(18, 25, 38, .08);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, #fafbff, #f3f5fb);
+    }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .hero {
+      background: linear-gradient(135deg, #ffffff, #f6f2ff);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.02;
+      letter-spacing: -.05em;
+    }
+    .sub {
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 78ch;
+      margin-bottom: 18px;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .pill {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: .92rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: .95rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: var(--accent);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+    button.secondary {
+      background: #fff;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      box-shadow: none;
+    }
+    .progress {
+      margin-top: 18px;
+      height: 12px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #edf1f7;
+      border: 1px solid #e5e8f0;
+    }
+    .bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #7c5cff, #9e88ff);
+      transition: width .24s ease;
+    }
+    .q {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .qhead {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+    .num {
+      min-width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--accent-soft);
+      color: #5f44df;
+      font-weight: 900;
+    }
+    .qtitle {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      line-height: 1.58;
+      font-weight: 800;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 800;
+      color: var(--muted);
+      background: #fafbff;
+      border: 1px solid var(--line);
+    }
+    .qimg {
+      width: 100%;
+      max-width: 760px;
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      margin: 12px 0 14px;
+    }
+    .opts {
+      display: grid;
+      gap: 10px;
+      margin: 10px 0 14px;
+    }
+    label.opt {
+      display: block;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: #fff;
+      cursor: pointer;
+      transition: .16s ease;
+    }
+    label.opt:hover {
+      transform: translateY(-1px);
+      border-color: #d8dcf0;
+    }
+    label.opt input {
+      margin-right: 10px;
+      transform: translateY(1px);
+    }
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .feedback {
+      display: none;
+      border-radius: 18px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+    .feedback.ok {
+      display: block;
+      background: var(--ok-bg);
+      border: 1px solid var(--ok-bd);
+      color: var(--ok-tx);
+    }
+    .feedback.bad {
+      display: block;
+      background: var(--bad-bg);
+      border: 1px solid var(--bad-bd);
+      color: var(--bad-tx);
+    }
+    .feedback.neutral {
+      display: block;
+      background: var(--neutral-bg);
+      border: 1px solid var(--neutral-bd);
+      color: var(--neutral-tx);
+    }
+    .answerLine {
+      font-weight: 900;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+    .explain {
+      display: grid;
+      gap: 10px;
+      color: var(--ink);
+      margin-top: 10px;
+    }
+    .box {
+      border-radius: 14px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(0,0,0,.06);
+      padding: 12px 14px;
+      line-height: 1.6;
+    }
+    .box strong {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+    .box ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+    }
+    .disease-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .mini {
+      border-radius: 12px;
+      background: #fff;
+      border: 1px solid #eceef5;
+      padding: 10px 12px;
+      line-height: 1.55;
+      font-size: .93rem;
+    }
+    .footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .92rem;
+      line-height: 1.5;
+      margin-top: 28px;
+      padding-bottom: 8px;
+    }
+    @media (max-width: 900px) {
+      .disease-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 760px) {
+      .wrap { padding: 14px; }
+      .hero { padding: 20px; border-radius: 20px; }
+      .q { padding: 16px; border-radius: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <h1>Questões Vesicobolhosas</h1>
+      
+      <div class="toolbar">
+        <div class="stats">
+          <div class="pill">Questões: <span id="totalQs">0</span></div>
+          <div class="pill">Corrigidas: <span id="doneCount">0</span></div>
+          <div class="pill">Acertos: <span id="scoreCount">0</span></div>
+          <div class="pill">Com imagem: <span id="imgCount">0</span></div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="secondary" onclick="expandAll()">Mostrar respostas de todas</button>
+          <button class="secondary" onclick="resetQuiz()">Resetar prova</button>
+        </div>
+      </div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </section>
+
+    <main id="quiz"></main>
+
+    <div class="footer">
+      Arquivo em HTML para estudo offline, com discussões ampliadas por diagnóstico.
+    </div>
+  </div>
+
+  <script>
+    const questions = [{"type": "imagem direta", "img": "images/01_pemphigus_vulgaris_clinical_oral_1.png", "q": "Observe a imagem. Erosões orais dolorosas extensas em um quadro bolhoso favorecem mais qual diagnóstico?", "options": ["Pênfigo vulgar", "Pênfigo foliáceo", "Penfigoide bolhoso", "Dermatite herpetiforme"], "answer": 0, "why": "A resposta correta é <b>pênfigo vulgar</b>. O pênfigo vulgar tem forte tropismo por mucosa oral e frequentemente se apresenta com erosões dolorosas antes mesmo das bolhas cutâneas clássicas.", "strengths": ["Mucosa oral é uma das pistas mais valiosas para PV.", "A bolha é flácida e frequentemente já chega ao exame como erosão.", "O plano de clivagem clássico é <b>suprabasal</b>."], "wrong": "PF costuma poupar mucosa; PB é mais tenso e pruriginoso; DH é extensor, pruriginosa e relacionada ao glúten."}, {"type": "imagem direta", "img": "images/15_bullous_pemphigoid_clinical_1.png", "q": "Observe a imagem. Bolhas tensas em idoso, com fundo eritematoso/pruriginoso, favorecem qual diagnóstico?", "options": ["Penfigoide bolhoso", "Pênfigo vulgar", "Dermatite herpetiforme", "Epidermólise bolhosa adquirida"], "answer": 0, "why": "A resposta correta é <b>penfigoide bolhoso</b>. A tensão da bolha traduz o plano subepidérmico da clivagem.", "strengths": ["Predomina em idosos.", "Prurido é muito frequente.", "Bolhas costumam ser mais íntegras que nos pênfigos."], "wrong": "PV tende a ser flácido e mucoso; DH é papulovesicular extensor; EBA costuma puxar mais fragilidade, cicatriz e mília."}, {"type": "imagem direta", "img": "images/27_dermatitis_herpetiformis_clinical_1.png", "q": "Observe a imagem. Pápulas/vesículas pruriginosas e escoriadas em superfícies extensoras favorecem:", "options": ["Dermatite herpetiforme", "Penfigoide bolhoso", "Pênfigo vegetante", "Hailey-Hailey"], "answer": 0, "why": "A resposta correta é <b>dermatite herpetiforme</b>. A topografia extensoras + prurido intenso é uma pista muito valiosa.", "strengths": ["Cotovelos, joelhos, nádegas e dorso são áreas clássicas.", "As lesões muitas vezes já chegam escoriadas pela intensidade do prurido.", "É uma manifestação cutânea ligada à enteropatia pelo glúten."], "wrong": "PB é bolhoso do idoso; pênfigo vegetante é intertriginoso; Hailey-Hailey também predomina em dobras."}, {"type": "imagem direta", "img": "images/36_darier_disease_clinical_1.png", "q": "Observe a imagem. Pápulas ceratósicas em áreas seborreicas, podendo associar alterações ungueais e pits palmoplantares, sugerem:", "options": ["Doença de Darier", "Hailey-Hailey", "Pênfigo foliáceo", "Dermatite herpetiforme"], "answer": 0, "why": "A resposta correta é <b>doença de Darier</b>, uma genodermatose acantolítica/disqueratósica clássica.", "strengths": ["Predileção por áreas seborreicas.", "Pode dar odor, crostas e aspecto verrucoso/ceratósico.", "Alterações ungueais ajudam muito no reconhecimento."], "wrong": "Hailey-Hailey predomina em dobras erosivas; PF é autoimune superficial; DH é extensor pruriginosa."}, {"type": "histologia", "img": "images/13_pemphigus_foliaceus_histology_1.png", "q": "Observe a histologia. Em qual doença esse padrão de clivagem alta, superficial, é mais típico?", "options": ["Pênfigo vulgar", "Pênfigo foliáceo", "Penfigoide bolhoso", "Hailey-Hailey"], "answer": 1, "why": "Esse padrão é mais típico de <b>pênfigo foliáceo</b>, cuja acantólise ocorre na porção alta da epiderme, frequentemente subcórnea.", "strengths": ["É o contraponto histológico clássico do PV.", "Explica por que as lesões são mais superficiais clinicamente.", "Se correlaciona com anti-Dsg1."], "wrong": "PV é suprabasal; PB é subepidérmico; Hailey-Hailey é acantolítica, mas o padrão clínico e o contexto são outros."}, {"type": "imagem + raciocínio clínico", "img": "images/22_mucous_membrane_pemphigoid_ocular_1.png", "q": "Observe a sequência ocular. Paciente com conjuntivite cicatricial progressiva, simbléfaro e lesões orais crônicas. Qual hipótese deve ser lembrada primeiro?", "options": ["Penfigoide de membranas mucosas", "Pênfigo vulgar", "Penfigoide bolhoso", "Hailey-Hailey"], "answer": 0, "why": "A melhor hipótese é <b>penfigoide de membranas mucosas</b>, porque o componente <b>cicatricial ocular</b> é uma das pistas mais fortes da doença.", "strengths": ["Olho é sítio crítico e potencialmente devastador.", "Mucosa + cicatriz + olho é uma combinação de alto rendimento.", "Distingue-se do PV pela fisiopatologia subepitelial e pelo risco cicatricial."], "wrong": "PV pode ter mucosa, mas não é a doença clássica de cicatrização ocular progressiva; PB é menos centrado em mucosa; Hailey-Hailey é intertriginosa."}, {"type": "imagem direta", "img": "images/05_pemphigus_vegetans_clinical_1.png", "q": "Observe a imagem. Placas vegetantes verrucosas em áreas intertriginosas, dentro do espectro do pênfigo, sugerem:", "options": ["Pênfigo vegetante", "Hailey-Hailey", "Darier", "Pênfigo foliáceo"], "answer": 0, "why": "A resposta correta é <b>pênfigo vegetante</b>, uma variante clínica do pênfigo vulgar com tendência a lesões vegetantes em dobras.", "strengths": ["Predileção por intertrígens.", "Placas vegetantes e úmidas são uma pista muito útil.", "Mantém a lógica autoimune do espectro do PV."], "wrong": "Hailey-Hailey e Darier também podem envolver dobras, mas o contexto vegetante bolhoso do espectro do pênfigo favorece pênfigo vegetante."}, {"type": "histologia + raciocínio", "img": "images/30_dermatitis_herpetiformis_histology_1.png", "q": "Observe a histologia. Paciente com prurido intenso, lesões excoriadas em cotovelos e joelhos, episódios de distensão abdominal, diarreia intermitente e deficiência de ferro. Somando a imagem ao quadro clínico, qual é o diagnóstico mais provável?", "options": ["Dermatite herpetiforme", "Pênfigo por IgA", "Penfigoide bolhoso", "MMP"], "answer": 0, "why": "A resposta correta é <b>dermatite herpetiforme</b>. A imagem com <b>neutrófilos nas papilas dérmicas</b>, associada a prurido intenso em superfícies extensoras e sintomas gastrointestinais compatíveis com enteropatia sensível ao glúten, monta um quadro muito típico.", "strengths": ["Lesões muito pruriginosas, frequentemente já escoriadas no exame.", "Distribuição típica em áreas extensoras, especialmente cotovelos, joelhos e nádegas.", "Histologia com <b>neutrófilos nas papilas dérmicas</b> é um ponto de alto rendimento.", "Sintomas gastrointestinais, deficiência de ferro e associação com glúten/doença celíaca tornam a questão mais integrada clinicamente."], "wrong": "<b>Pênfigo por IgA</b> pode ter neutrófilos, mas não é a doença clássica das papilas dérmicas com esse contexto gastrointestinal; <b>PB</b> costuma ser eosinofílico e do idoso; <b>MMP</b> é mucoso e cicatricial, sem esse fenótipo extensor-pruriginoso."}, {"type": "histologia", "img": "images/12_pemphigus_vulgaris_histology_1.png", "q": "Observe a histologia. Qual achado morfológico central essa imagem representa?", "options": ["Clivagem subcórnea neutrofílica", "Clivagem suprabasal com acantólise", "Bolha subepidérmica eosinofílica", "Neutrófilos nas papilas dérmicas"], "answer": 1, "why": "A imagem representa <b>clivagem suprabasal com acantólise</b>, a assinatura histológica clássica do pênfigo vulgar.", "strengths": ["A camada basal tende a permanecer aderida à derme.", "É a base da clássica imagem de “fileira de lápides”.", "Une perfeitamente morfologia e mecanismo desmossomal."], "wrong": "Subcórnea neutrofílica lembra pênfigo por IgA; bolha subepidérmica eosinofílica lembra PB; neutrófilos papilares fazem pensar em DH."}, {"type": "histologia", "img": "images/18_bullous_pemphigoid_histology_1.png", "q": "Observe a histologia. Qual combinação resume melhor esse padrão no contexto correto?", "options": ["Clivagem suprabasal + acantólise", "Bolha subepidérmica + eosinófilos", "Neutrófilos em papilas + IgA granular", "Subcórnea neutrofílica + IgA intercelular"], "answer": 1, "why": "O padrão mais compatível é <b>bolha subepidérmica com eosinófilos</b>, altamente sugestivo de penfigoide bolhoso.", "strengths": ["Os eosinófilos são um apoio histológico forte.", "Explica a bolha tensa clínica.", "Conecta bem com IF linear na ZMB."], "wrong": "As demais alternativas descrevem PV, DH e pênfigo por IgA."}, {"type": "imunofluorescência + raciocínio", "img": "images/31_linear_iga_bullous_dermatosis_if_1.png", "q": "Observe a IF direta. Qual diagnóstico combina melhor com este padrão, especialmente se a clínica mostra bolhas anulares e eventual acometimento mucoso?", "options": ["Dermatose bolhosa linear por IgA", "Dermatite herpetiforme", "Penfigoide bolhoso", "Pênfigo vulgar"], "answer": 0, "why": "A IF mostra o padrão clássico <b>linear de IgA na zona da membrana basal</b>, compatível com <b>LAD</b>.", "strengths": ["Essa é a diferença de prova mais importante em relação à DH.", "A clínica pode lembrar DH, mas a IF redefine o eixo.", "Pode ocorrer tanto em criança quanto em adulto."], "wrong": "DH é granular; PB é mais tipicamente IgG/C3; PV é intercelular."}, {"type": "imagem + raciocínio clínico", "img": "images/10_paraneoplastic_pemphigus_1.png", "q": "Observe a imagem. Paciente com mucosite grave, lesões polimorfas, perda ponderal importante, adenomegalias progressivas e piora do estado geral nas últimas semanas. Qual hipótese deve subir muito na lista?", "options": ["Pênfigo paraneoplásico", "Pênfigo foliáceo", "Penfigoide bolhoso", "Darier"], "answer": 0, "why": "O quadro é altamente sugestivo de <b>pênfigo paraneoplásico</b>. Mesmo sem citar diretamente o diagnóstico de base, a combinação de <b>mucosite exuberante</b>, polimorfismo cutâneo e sintomas sistêmicos como perda ponderal e adenomegalias deve acender esse raciocínio.", "strengths": ["Mucosite intensa é uma das pistas mais valiosas da doença.", "As lesões podem ser polimorfas e fugir do padrão clássico de um único tipo de bolhosa.", "Perda ponderal, adenomegalias e piora sistêmica sugerem um processo de base importante, muitas vezes hematológico.", "É uma questão clássica de integração entre dermatologia e doença sistêmica."], "wrong": "<b>PF</b> não costuma dar mucosite exuberante; <b>PB</b> tende a ser pruriginoso e tenso no idoso; <b>Darier</b> é genodermatose acantolítica e não explica esse contexto sistêmico."}, {"type": "imagem + raciocínio clínico", "img": "images/02_pemphigus_vulgaris_clinical_skin_1.png", "q": "Paciente com as lesões da imagem apresenta também odinofagia, erosões orais há 6 semanas e biópsia com clivagem suprabasal acantolítica. Qual é o diagnóstico mais provável?", "options": ["Pênfigo vulgar", "Penfigoide de membranas mucosas", "Pênfigo paraneoplásico", "Dermatose bolhosa linear por IgA"], "answer": 0, "why": "O conjunto é mais compatível com <b>pênfigo vulgar</b>. A soma de mucosa importante + erosões cutâneas por bolhas frágeis + acantólise suprabasal praticamente organiza o raciocínio para PV.", "strengths": ["Histologia acantolítica suprabasal é muito típica.", "A clínica cutânea costuma ser erosiva e dolorosa.", "A IF direta clássica é <b>intercelular em rede</b>."], "wrong": "MMP é subepitelial/cicatricial; PNP exigiria forte contexto neoplásico e polimorfismo mais exuberante; LAD é subepidérmica e por IgA linear."}, {"type": "raciocínio clínico", "q": "Paciente com fragilidade cutânea, cicatrizes e mília. IF é linear na ZMB e, no salt-split skin, a marcação fica no assoalho. Qual é a melhor hipótese?", "options": ["Penfigoide bolhoso", "Epidermólise bolhosa adquirida", "Dermatite herpetiforme", "Pênfigo foliáceo"], "answer": 1, "why": "O padrão favorece <b>EBA</b>. Na prova, a combinação clínica + <b>salt-split no assoalho</b> vale muito.", "strengths": ["O alvo clássico é o <b>colágeno VII</b>.", "O padrão no assoalho ajuda a separar de PB.", "A clínica mecânica cicatricial fecha o contexto."], "wrong": "PB tende a marcar o teto; DH não é a doença clássica do salt-split com esse fenótipo; PF é intraepidérmico."}, {"type": "questão direta", "img": "images/37_darier_disease_clinical_2.png", "q": "Qual alteração ungueal clássica, quando presente junto desse fenótipo, reforça o diagnóstico de Darier?", "options": ["Onicólise distal com pterígio", "Entalhe em V na borda livre da unha", "Lúnula azulada", "Paroníquia exclusivamente purulenta"], "answer": 1, "why": "O <b>entalhe em V na borda livre</b> é uma pista clássica da doença de Darier.", "strengths": ["É um detalhe de prova muito cobrando.", "Ajuda bastante na diferenciação com Hailey-Hailey.", "Pode vir acompanhado de estrias longitudinais e fragilidade ungueal."], "wrong": "As outras alternativas não resumem a alteração ungueal clássica de Darier."}, {"type": "imagem direta", "img": "images/11_iga_pemphigus_subcorneal_pustular_dermatosis_1.png", "q": "Observe a imagem. Erupção pustulosa superficial dentro do espectro dos pênfigos, classicamente associada à dermatose pustular subcórnea, sugere:", "options": ["Pênfigo por IgA", "Dermatite herpetiforme", "Penfigoide bolhoso", "Pênfigo vegetante"], "answer": 0, "why": "A resposta correta é <b>pênfigo por IgA</b>, especialmente a forma do tipo dermatose pustular subcórnea.", "strengths": ["As lesões podem ser mais pustulosas do que bolhosas típicas.", "O padrão histológico pode ser subcórneo com neutrófilos.", "É uma entidade excelente para diferenciar de PF e de dermatoses neutrofílicas."], "wrong": "DH e PB pertencem a outro eixo imune/subepidérmico; pênfigo vegetante é vegetante intertriginoso."}, {"type": "questão direta", "q": "Qual autoantígeno está mais ligado à forma mucosa-dominante do pênfigo vulgar?", "options": ["BP180", "Desmogleína 3", "Colágeno VII", "Desmogleína 1"], "answer": 1, "why": "A melhor resposta é <b>desmogleína 3</b>. Ela é um dos principais alvos no PV, sobretudo quando a mucosa predomina.", "strengths": ["Dsg3 tem expressão relevante em epitélio mucoso.", "Anti-Dsg3 isolada tende a puxar fenótipo mais mucoso.", "Quando Dsg1 entra junto, a pele costuma ficar mais envolvida."], "wrong": "BP180 aponta para penfigoides; colágeno VII para EBA; Dsg1 é mais típica do pênfigo foliáceo."}, {"type": "imagem + raciocínio clínico", "img": "images/16_bullous_pemphigoid_clinical_2.png", "q": "Observe a imagem. Paciente idoso refere prurido intenso há meses e placas urticariformes/eczematosas antes das bolhas. IF direta: linear de IgG e C3 na ZMB. Qual é a melhor hipótese?", "options": ["Penfigoide bolhoso", "Dermatose bolhosa linear por IgA", "Pênfigo foliáceo", "Dermatite herpetiforme"], "answer": 0, "why": "Esse é o enunciado clássico de <b>penfigoide bolhoso</b> em fase prodrômica evoluindo para fase bolhosa.", "strengths": ["A fase pré-bolhosa pode simular urticária ou eczema.", "A IF linear de IgG/C3 é um ponto-chave.", "O prurido é forte e muito didático."], "wrong": "LAD tende a ser por IgA; PF é superficial/acantolítico; DH é granular por IgA e neutrofílica."}, {"type": "histologia", "img": "images/40_darier_disease_histology_1.png", "q": "Observe a histologia. Qual combinação é mais compatível com essa doença?", "options": ["Acantólise com disqueratose (corps ronds e grains)", "Bolha subepidérmica com eosinófilos", "Neutrófilos em papilas + IgA granular", "Clivagem suprabasal pura sem disqueratose"], "answer": 0, "why": "A histologia é compatível com <b>Darier</b>, cuja assinatura é <b>acantólise com disqueratose</b>.", "strengths": ["Corps ronds e grains são conceitos-chave.", "A disqueratose ajuda a separá-la de Hailey-Hailey.", "É uma das melhores perguntas de diferencial histológico entre acantolíticas."], "wrong": "As demais alternativas descrevem PB, DH e PV."}, {"type": "questão direta", "img": "images/09_pemphigus_erythematosus_senear_usher_1.png", "q": "A imagem mostra uma variante localizada do espectro do pênfigo foliáceo em área fotoexposta, tradicionalmente chamada de:", "options": ["Pênfigo eritematoso (Senear-Usher)", "Pênfigo vegetante", "Pênfigo paraneoplásico", "Pênfigo por IgA"], "answer": 0, "why": "O diagnóstico é <b>pênfigo eritematoso (Senear-Usher)</b>, uma forma com características clínicas sobrepostas ao espectro do PF e distribuição facial que pode lembrar lúpus/discoide.", "strengths": ["Distribuição centrofacial ajuda a lembrar da entidade.", "É didaticamente importante como variante do PF.", "Costuma aparecer em questões de diferencial com lúpus cutâneo."], "wrong": "As outras alternativas têm fenótipos bem diferentes: vegetante, paraneoplásico polimorfo ou pustuloso por IgA."}, {"type": "imagem direta", "img": "images/21_mucous_membrane_pemphigoid_oral_1.png", "q": "Observe a imagem. Erosões gengivais e mucosas crônicas, em um quadro subepitelial cicatricial, favorecem:", "options": ["Penfigoide de membranas mucosas", "Pênfigo foliáceo", "Dermatite herpetiforme", "Darier"], "answer": 0, "why": "A resposta correta é <b>penfigoide de membranas mucosas</b>. O eixo diagnóstico aqui é mucosa crônica com tendência à cicatrização.", "strengths": ["Gengiva descamativa é uma apresentação importante.", "A mucosa pode ser muito mais marcante do que a pele.", "É uma doença de alto risco funcional se houver acometimento ocular."], "wrong": "PF não é mucoso cicatricial; DH e Darier não explicam esse padrão oral."}, {"type": "imagem direta", "img": "images/34_linear_iga_bullous_dermatosis_clinical_1.png", "q": "Observe a imagem. Lesões anulares ou em “crown of jewels”, em contexto subepidérmico por IgA, sugerem:", "options": ["Dermatose bolhosa linear por IgA", "Dermatite herpetiforme", "Pênfigo foliáceo", "Darier"], "answer": 0, "why": "A resposta correta é <b>dermatose bolhosa linear por IgA</b>.", "strengths": ["O arranjo anular ajuda muito no reconhecimento clínico.", "É uma bolhosa subepidérmica por IgA.", "Em provas, o maior diferencial imediato costuma ser DH."], "wrong": "DH é mais granular na IF e mais extensor/pruriginosa; PF e Darier não têm esse fenótipo bolhoso por IgA."}, {"type": "imagem direta", "img": "images/07_pemphigus_foliaceus_clinical_1.png", "q": "Observe a imagem. Lesões eritemato-descamativas e crostosas difusas, muito superficiais, sem grande acometimento mucoso, favorecem:", "options": ["Pênfigo foliáceo", "Pênfigo vulgar", "Penfigoide bolhoso", "Epidermólise bolhosa adquirida"], "answer": 0, "why": "A resposta correta é <b>pênfigo foliáceo</b>. Ele cursa com acantólise mais superficial, por isso muitas vezes se apresenta mais como erosão/crosta do que como bolha íntegra.", "strengths": ["Mucosa ausente ou muito rara.", "Lesões mais superficiais e crostosas.", "Topografia seborreica pode ajudar bastante."], "wrong": "PV costuma ter mucosa; PB é tenso e subepidérmico; EBA traz fragilidade, cicatriz e mília."}, {"type": "imagem direta", "img": "images/25_epidermolysis_bullosa_acquisita_1.png", "q": "Observe a imagem. Lesões bolhosas/erosivas em áreas sujeitas a trauma, com cicatriz e tendência a mília, sugerem:", "options": ["Epidermólise bolhosa adquirida", "Penfigoide bolhoso", "Pênfigo vulgar", "Pênfigo eritematoso"], "answer": 0, "why": "A resposta correta é <b>epidermólise bolhosa adquirida (EBA)</b>. Fragilidade mecânica, cicatriz e mília são pistas extremamente úteis.", "strengths": ["É grande imitadora das subepidérmicas.", "A distribuição em áreas traumáticas ajuda muito.", "As cicatrizes e mília pesam a favor de EBA."], "wrong": "PB é mais inflamatório/pruriginoso clássico; PV é intraepidérmico; pênfigo eritematoso é forma do PF em área fotoexposta."}, {"type": "imagem + IF", "img": "images/34_linear_iga_bullous_dermatosis_clinical_1.png", "q": "Observe a imagem. A imunofluorescência direta da pele perilesional mostrou <b>deposição linear de IgA ao longo da zona da membrana basal</b>. Qual diagnóstico melhor integra a imagem e esse exame?", "options": ["Dermatose bolhosa linear por IgA", "Pênfigo vulgar", "Pênfigo eritematoso", "Hailey-Hailey"], "answer": 0, "why": "A melhor resposta é <b>dermatose bolhosa linear por IgA</b>. Aqui, o valor da questão está em reconhecer que a clínica pode lembrar outras dermatoses bolhosas por neutrófilos, mas o padrão de IF descrito é decisivo.", "strengths": ["A lesão clínica pode ter arranjo anular ou em “crown of jewels”.", "A IF direta com <b>IgA linear na ZMB</b> é a principal pista de prova.", "É exatamente esse padrão que a diferencia de DH, que é granular por IgA.", "Pode haver mucosa em parte dos casos, o que aumenta o leque diferencial clínico."], "wrong": "<b>DH</b> seria mais provável se a IF fosse <b>granular</b>; <b>PV</b> é intercelular; <b>pênfigo eritematoso</b> pertence ao espectro do PF e não tem esse padrão de IF."}, {"type": "histologia", "img": "images/14_iga_pemphigus_histology_1.png", "q": "Observe a histologia. Pústula subcórnea rica em neutrófilos, no contexto clínico adequado, aponta mais para:", "options": ["Pênfigo por IgA", "Pênfigo vulgar", "Penfigoide bolhoso", "MMP"], "answer": 0, "why": "O padrão favorece <b>pênfigo por IgA</b>, sobretudo a variante relacionada à dermatose pustular subcórnea.", "strengths": ["Ajuda a separar de PV, que é suprabasal acantolítico.", "É um bom exemplo de doença com viés neutrofílico no espectro bolhoso.", "A correlação clínico-patológica é essencial."], "wrong": "PV, PB e MMP têm morfologias estruturais bem diferentes."}, {"type": "imunofluorescência", "img": "images/29_dermatitis_herpetiformis_if_1.png", "q": "Observe a IF direta. Qual diagnóstico é o mais provável com esse padrão?", "options": ["Dermatite herpetiforme", "Dermatose bolhosa linear por IgA", "Penfigoide bolhoso", "Pênfigo vulgar"], "answer": 0, "why": "A IF mostra padrão de <b>IgA granular nas papilas dérmicas</b>, que é a marca registrada da <b>dermatite herpetiforme</b>.", "strengths": ["É o principal divisor prático entre DH e LAD.", "A distribuição granular é extremamente cobrada.", "Deve ser correlacionada com neutrófilos em papilas na HE."], "wrong": "LAD é linear por IgA; PB é linear IgG/C3; PV é intercelular."}, {"type": "imagem direta", "img": "images/44_hailey_hailey_clinical_2.png", "q": "Observe a imagem. Placas erosivas/fissuradas recorrentes em áreas intertriginosas, piorando com calor e atrito, sugerem:", "options": ["Hailey-Hailey", "Doença de Darier", "Pênfigo vegetante", "Penfigoide bolhoso"], "answer": 0, "why": "A resposta correta é <b>Hailey-Hailey</b>, uma doença acantolítica hereditária com forte predileção por dobras.", "strengths": ["Intertrígens são o cenário clássico.", "Calor, suor e atrito funcionam como gatilhos importantes.", "O fenótipo costuma ser erosivo, macerado e recorrente."], "wrong": "Darier costuma ser mais ceratósica/seborreica; pênfigo vegetante pode entrar no diferencial, mas o contexto hereditário recidivante de dobras favorece Hailey-Hailey; PB não é o padrão aqui."}];
+    const diseaseInfo = {"Pênfigo vulgar": {"epi": "Doença bolhosa autoimune rara, mais comum em adultos de meia-idade ou idosos. No espectro molecular, predomina autoimunidade contra desmogleína 3, com ou sem desmogleína 1.", "gen": "Não é genodermatose mendeliana; a base é autoimune. A genética entra mais como predisposição imunológica do que como mutação única causal.", "clin": "Quadro clássico com erosões orais dolorosas, odinofagia/disfagia em alguns casos, bolhas flácidas e erosões cutâneas. Mucosa é uma pista muito forte.", "histo": "Clivagem suprabasal com acantólise; a camada basal permanece aderida à derme, gerando a ideia de 'fileira de lápides'.", "if": "IF direta: padrão intercelular em rede. IF indireta/ELISA: anticorpos circulantes, tipicamente anti-Dsg3 ± anti-Dsg1.", "extra": "Tratamento costuma envolver corticoide sistêmico e poupadores; rituximabe é peça central no manejo moderno. Para matar a questão: mucosa + bolha flácida + suprabasal + IF intercelular."}, "Pênfigo vegetante": {"epi": "Variante rara do pênfigo vulgar.", "gen": "Base autoimune, não genética mendeliana; compartilha o eixo desmossomal do pênfigo vulgar.", "clin": "Placas vegetantes, úmidas, verrucosas, sobretudo em dobras e áreas intertriginosas.", "histo": "Acantólise do espectro do PV, podendo vir com hiperplasia epidérmica, eosinófilos e microabscessos.", "if": "IF direta geralmente intercelular, como no espectro do pênfigo.", "extra": "Pega muito no diferencial com Hailey-Hailey, Darier e piodermites vegetantes. Para matar a questão: lesão vegetante em dobras dentro de um contexto de pênfigo."}, "Pênfigo foliáceo": {"epi": "Bolhosa autoimune superficial; pode ter formas esporádicas e endêmicas (como fogo selvagem em regiões específicas).", "gen": "Base autoimune, com principal alvo desmogleína 1.", "clin": "Lesões eritemato-descamativas, crostosas e erosivas superficiais, muitas vezes em distribuição seborreica. Mucosa costuma estar ausente ou ser muito rara.", "histo": "Acantólise alta, geralmente subcórnea ou na porção superior da epiderme.", "if": "IF direta: padrão intercelular. IF indireta/ELISA: perfil clássico com anti-Dsg1.", "extra": "O ponto-chave é que ele é mais superficial do que PV. Para matar a questão: sem mucosa relevante + clivagem alta + Dsg1."}, "Pênfigo eritematoso (Senear-Usher)": {"epi": "Variante localizada no espectro do pênfigo foliáceo.", "gen": "Base autoimune do espectro do PF; não é genodermatose.", "clin": "Placas eritemato-descamativas em áreas fotoexpostas, sobretudo face centrofacial. Pode lembrar lúpus cutâneo/discoide.", "histo": "No eixo do PF, com acantólise superficial.", "if": "Padrão intercelular do espectro do pênfigo; a discussão com lúpus entra mais no fenótipo clínico e em exames complementares específicos do caso.", "extra": "Para matar a questão: apresentação facial fotoexposta no espectro do PF."}, "Pênfigo paraneoplásico": {"epi": "Doença rara e grave, classicamente associada a neoplasias, sobretudo hematológicas.", "gen": "Não é genodermatose; trata-se de doença autoimune/paraneoplásica com múltiplos autoantígenos, incluindo proteínas da família das plaquinas.", "clin": "Mucosite exuberante e refratária, lesões cutâneas polimorfas, dor importante e sinais sistêmicos como perda ponderal ou adenomegalias no contexto certo.", "histo": "Pode combinar acantólise, dermatite de interface e necrose queratinocitária; a histologia isolada pode ser heterogênea.", "if": "IF direta variável: intercelular e/ou juncional. Sorologia e painéis complementares podem demonstrar anticorpos contra plaquinas e outros alvos.", "extra": "Para matar a questão: mucosite muito intensa + lesões polimorfas + sinais sistêmicos que sugerem doença de base importante."}, "Pênfigo por IgA": {"epi": "Entidade rara; inclui tipo dermatose pustular subcórnea e forma intraepidérmica neutrofílica.", "gen": "Não é genodermatose; o eixo é autoimune mediado por IgA.", "clin": "Pústulas e vesicopústulas superficiais, por vezes anulares, dentro do espectro dos pênfigos.", "histo": "Pústulas subcórneas ou intraepidérmicas ricas em neutrófilos, com acantólise variável.", "if": "IF direta: padrão intercelular por IgA. IF indireta pode ser positiva em parte dos casos, mas não é o principal atalho de prova.", "extra": "Excelente diferencial com PF e outras dermatoses neutrofílicas. Para matar a questão: pênfigo pustuloso/neutrofílico com IF intercelular por IgA."}, "Penfigoide bolhoso": {"epi": "É a bolhosa autoimune mais comum do idoso.", "gen": "Base autoimune, não genética mendeliana. Alvos principais: BP180 e BP230 do hemidesmossomo.", "clin": "Prurido intenso, fase urticariforme/eczematosa e depois bolhas tensas. Mucosa é discreta ou ausente na maioria dos casos.", "histo": "Bolha subepidérmica com eosinófilos; nas fases iniciais pode haver espongiose eosinofílica.", "if": "IF direta: linear de IgG e/ou C3 na ZMB. IF indireta pode mostrar anticorpos circulantes; no salt-split, o padrão típico favorece o teto.", "extra": "Para matar a questão: idoso + prurido + urticariforme + bolha tensa + eosinófilos + IF linear."}, "Penfigoide de membranas mucosas": {"epi": "Doença autoimune subepitelial crônica menos comum que PB, com predomínio de mucosas.", "gen": "Não é genodermatose; os autoantígenos podem variar, incluindo BP180, laminina 332, integrinas e colágeno VII em subgrupos.", "clin": "Mucosa oral, ocular, nasal, genital e outras; a marca clínica é a tendência à cicatrização e ao dano funcional, especialmente ocular.", "histo": "Clivagem subepitelial/subepidérmica.", "if": "IF direta: depósito linear ao longo da membrana basal. IF indireta pode ser negativa em parte dos casos, então a biópsia perilesional pesa muito.", "extra": "Para matar a questão: mucosa + cicatriz + olho."}, "Epidermólise bolhosa adquirida": {"epi": "Bolhosa autoimune rara.", "gen": "Não é a epidermólise bolhosa hereditária; aqui a base é autoimune contra colágeno tipo VII.", "clin": "Fragilidade mecânica, bolhas em áreas traumáticas, cicatriz, mília; pode simular PB e MMP em formas inflamatórias.", "histo": "Bolha subepidérmica, muitas vezes com pouca inflamação, embora haja variantes mais inflamatórias.", "if": "IF direta: linear na ZMB. Salt-split/IFI: padrão clássico com marcação no assoalho.", "extra": "Para matar a questão: cicatriz + mília + fragilidade mecânica + colágeno VII + assoalho no salt-split."}, "Dermatite herpetiforme": {"epi": "Manifestação cutânea clássica da doença celíaca/enteropatia sensível ao glúten.", "gen": "Forte associação com predisposição imunogenética da doença celíaca, especialmente HLA-DQ2/DQ8 no contexto do glúten.", "clin": "Prurido muito intenso, pápulas/vesículas agrupadas e geralmente já escoriadas em cotovelos, joelhos, nádegas e dorso. Pode haver sintomas gastrointestinais ou sinais indiretos como anemia/deficiência de ferro.", "histo": "Neutrófilos nas papilas dérmicas e bolha subepidérmica.", "if": "IF direta: IgA granular nas papilas dérmicas. IF indireta tem papel bem menor que a IF direta no diagnóstico prático.", "extra": "Para matar a questão: extensoras + prurido intenso + glúten/celíaca + neutrófilos papilares + IgA granular."}, "Dermatose bolhosa linear por IgA": {"epi": "Doença bolhosa subepidérmica rara que pode acometer crianças e adultos; alguns casos são induzidos por medicamentos.", "gen": "Base autoimune; não é genodermatose mendeliana.", "clin": "Bolhas e vesículas por vezes anulares, em 'crown of jewels', com eventual acometimento mucoso.", "histo": "Bolha subepidérmica frequentemente neutrofílica.", "if": "IF direta: IgA linear na ZMB. IF indireta pode ser útil em casos selecionados.", "extra": "Para matar a questão: a grande diferença para DH é a IF — aqui ela é linear, não granular."}, "Doença de Darier": {"epi": "Genodermatose autossômica dominante, em geral iniciando da adolescência ao adulto jovem.", "gen": "Mutação em ATP2A2, afetando homeostase de cálcio e coesão/queratinização epidérmica.", "clin": "Pápulas ceratósicas em áreas seborreicas, crostas, odor, pits palmoplantares e alterações ungueais clássicas como entalhe em V.", "histo": "Acantólise com disqueratose; corps ronds e grains são muito lembrados.", "if": "IF direta/indireta não são o eixo diagnóstico, porque não se trata de bolhosa autoimune.", "extra": "Para matar a questão: seborreica + ceratósica + unha em V + pits + ATP2A2."}, "Hailey-Hailey": {"epi": "Genodermatose autossômica dominante, geralmente aparecendo em adultos jovens.", "gen": "Mutação em ATP2C1, ligada à adesão/diferenciação de queratinócitos.", "clin": "Placas erosivas, fissuradas e maceradas em dobras, com piora por calor, suor e atrito; curso recidivante.", "histo": "Acantólise extensa em 'dilapidated brick wall', com menos disqueratose que Darier.", "if": "IF direta/indireta não são centrais, porque não é doença autoimune bolhosa.", "extra": "Para matar a questão: dobras + calor/atrito + recorrência + ATP2C1 + 'dilapidated brick wall'."}};
+
+    const quiz = document.getElementById('quiz');
+    const totalQs = document.getElementById('totalQs');
+    const doneCount = document.getElementById('doneCount');
+    const scoreCount = document.getElementById('scoreCount');
+    const imgCount = document.getElementById('imgCount');
+    const bar = document.getElementById('bar');
+
+    totalQs.textContent = questions.length;
+    imgCount.textContent = questions.filter(q => Boolean(q.img)).length;
+
+    function render() {
+      quiz.innerHTML = '';
+      questions.forEach((item, idx) => {
+        const q = document.createElement('section');
+        q.className = 'q';
+        q.dataset.index = idx;
+
+        const optionsHtml = item.options.map((opt, i) => `
+          <label class="opt">
+            <input type="radio" name="q${idx}" value="${i}">
+            <span>${String.fromCharCode(97 + i)}) ${opt}</span>
+          </label>
+        `).join('');
+
+        const imgHtml = item.img ? `<img class="qimg" src="${item.img}" alt="Imagem da questão ${idx + 1}">` : '';
+
+        q.innerHTML = `
+          <div class="qhead">
+            <div class="num">${idx + 1}</div>
+            <div>
+              <div class="qtitle">${item.q}</div>
+              <span class="badge">${item.type}</span>
+            </div>
+          </div>
+          ${imgHtml}
+          <div class="opts">${optionsHtml}</div>
+          <div class="actions">
+            <button onclick="checkAnswer(${idx})">Ver resposta</button>
+          </div>
+          <div class="feedback" id="fb-${idx}"></div>
+        `;
+        quiz.appendChild(q);
+      });
+      updateStats();
+    }
+
+    function getSelected(index) {
+      const checked = document.querySelector(`input[name="q${index}"]:checked`);
+      return checked ? Number(checked.value) : null;
+    }
+
+    function diseaseBlock(correctName) {
+      const d = diseaseInfo[correctName];
+      if (!d) return '';
+      return `
+        <div class="box">
+          <strong>Mini-aula da doença correta</strong>
+          <div class="disease-grid" style="margin-top:8px;">
+            <div class="mini"><strong>Epidemiologia</strong><br>${d.epi}</div>
+            <div class="mini"><strong>Genética / base molecular</strong><br>${d.gen}</div>
+            <div class="mini"><strong>Quadro clínico clássico</strong><br>${d.clin}</div>
+            <div class="mini"><strong>Histologia</strong><br>${d.histo}</div>
+            <div class="mini"><strong>IF direta / indireta</strong><br>${d.if}</div>
+            <div class="mini"><strong>Como matar a questão</strong><br>${d.extra}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function buildExplanation(item, isRight) {
+      const correct = item.answer;
+      const correctName = item.options[correct];
+      const letter = String.fromCharCode(97 + correct);
+      const strengths = item.strengths.map(s => `<li>${s}</li>`).join('');
+      return `
+        <div class="answerLine">${isRight ? 'Correto.' : 'Incorreto.'}</div>
+        <div><strong>Resposta certa:</strong> ${letter}) ${correctName}</div>
+        <div class="explain">
+          <div class="box">
+            <strong>Por que essa é a correta nesta questão</strong><br>
+            ${item.why}
+          </div>
+          <div class="box">
+            <strong>Pontos fortes para gravar</strong>
+            <ul>${strengths}</ul>
+          </div>
+          ${diseaseBlock(correctName)}
+          <div class="box">
+            <strong>Por que as outras não são as melhores aqui</strong><br>
+            ${item.wrong}
+          </div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(index) {
+      const selected = getSelected(index);
+      const fb = document.getElementById(`fb-${index}`);
+      const item = questions[index];
+
+      if (selected === null) {
+        fb.dataset.done = '';
+        fb.dataset.right = '';
+        fb.className = 'feedback neutral';
+        fb.innerHTML = `
+          <div class="answerLine">Você ainda não marcou uma alternativa.</div>
+          <div>Escolha uma opção para corrigir esta questão.</div>
+        `;
+        return;
+      }
+
+      const isRight = selected === item.answer;
+      fb.dataset.done = '1';
+      fb.dataset.right = isRight ? '1' : '0';
+      fb.className = 'feedback ' + (isRight ? 'ok' : 'bad');
+      fb.innerHTML = buildExplanation(item, isRight);
+      updateStats();
+    }
+
+    function expandAll() {
+      questions.forEach((item, i) => {
+        const selected = getSelected(i);
+        if (selected === null) {
+          document.querySelector(`input[name="q${i}"][value="${item.answer}"]`).checked = true;
+        }
+        checkAnswer(i);
+      });
+    }
+
+    function resetQuiz() {
+      render();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateStats() {
+      const fbs = [...document.querySelectorAll('.feedback[data-done="1"]')];
+      const done = fbs.length;
+      const score = fbs.filter(el => el.dataset.right === '1').length;
+      doneCount.textContent = done;
+      scoreCount.textContent = score;
+      bar.style.width = questions.length ? `${(done / questions.length) * 100}%` : '0%';
+    }
+
+    render();
+  </script>
+</body>
+</html>
